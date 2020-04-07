@@ -4,7 +4,7 @@
   <groupId>it.angeloonline.performance</groupId>
   <artifactId>JMHBenchmark</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Archetype - benchmark</name>
+  <name>JMH - benchmark</name>
   <url>http://maven.apache.org</url>
   
 
@@ -40,7 +40,7 @@
     </dependencies>
   <build>
 <plugins>
-<plugin>
+	<plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.0</version>
@@ -48,31 +48,30 @@
           <source>${javac.target}</source>
           <target>${javac.target}</target>
         </configuration>
-      </plugin>
-  <plugin>
-    <groupId>org.codehaus.mojo</groupId>
-    <artifactId>exec-maven-plugin</artifactId>
-    <version>1.6.0</version>
-    <executions>
-        <execution>
-            <id>run-benchmarks</id>
-            <phase>integration-test</phase>
-            <goals>
-                <goal>exec</goal>
-            </goals>
-            <configuration>
-                <classpathScope>test</classpathScope>
-                <executable>java</executable>
-                <arguments>
-                    <argument>-classpath</argument>
-                    <classpath />
-                    <argument>org.openjdk.jmh.Main</argument>
-                    <argument>.*.</argument>
-                </arguments>                
-            </configuration>
-        </execution>
-    </executions>
-</plugin>
+  </plugin>
+   <plugin>
+   		<groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <!-- Attach the shade into the package phase -->
+          <execution>
+             <phase>package</phase>
+             <goals>
+                  <goal>shade</goal>
+             </goals>
+             <configuration>
+               <finalName>JMHBenchmarks</finalName>
+               <transformers>
+                    <transformer
+                             implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                         <mainClass>org.openjdk.jmh.Main</mainClass>
+                    </transformer>
+                </transformers>
+              </configuration>
+          </execution>
+       </executions>
+  </plugin>
 </plugins>
 </build>
 </project>

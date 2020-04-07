@@ -26,7 +26,7 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 @Measurement(iterations = 3, time = 1)
 @State(Scope.Benchmark)
 public class MyBenchmarkStream {
-	public int iterations = 1000;
+	public int iterations = 100000;
 	public List <Integer> myList;
 	
 	public static void main(String[] args) throws RunnerException {

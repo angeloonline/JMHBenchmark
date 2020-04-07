@@ -1,5 +1,7 @@
 package it.angeloonline.performance;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openjdk.jmh.annotations.Benchmark;
@@ -22,38 +24,32 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 @Warmup(iterations = 2, time = 1)
 @Measurement(iterations = 3, time = 1)
 @State(Scope.Benchmark)
-public class MyBenchmark {
-	public int iterations = 1000;
+public class MyBenchmarkCollectionsInitialization {
+	public int iterations = 1000000;
+	public List <Integer> myList;
 	
 	public static void main(String[] args) throws RunnerException {
 		Options opt = new OptionsBuilder()
-				.include(MyBenchmark.class.getSimpleName())
+				.include(MyBenchmarkCollectionsInitialization.class.getSimpleName())
 				.build();
 		new Runner(opt).run();
-		}
-
-	@Benchmark
-	public String testHelloWorldBuilder() {
-	  StringBuilder builder = new StringBuilder();
-	  for(int i = 0; i < iterations; i++)
-		  builder.append(i);
-	  return builder.toString();
 	}
 	
 	@Benchmark
-	public String testHelloWorldBuffer() {
-	  StringBuffer buffer = new StringBuffer();
-	  for(int i = 0; i < iterations; i++)
-		  buffer.append(i);
-	  return buffer.toString();
+	public int testForLoopWithInit() {
+		myList = new ArrayList<Integer>(iterations);
+		for (int i = 0; i < iterations; i++)
+			myList.add(i);
+		return 0;
 	}
 	
 	@Benchmark
-	public String testHelloWorldPlainString() {
-	  String buffer = new String();
-	  for(int i = 0; i < iterations; i++)
-		  buffer+=i;
-	  return buffer.toString();
+	public int testForLoop() {
+		myList = new ArrayList<Integer>();
+		for (int i = 0; i < iterations; i++)
+			myList.add(i);
+		
+		return 0;
 	}
 
 }
