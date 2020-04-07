@@ -1,4 +1,5 @@
-#Java micro benchmarks examples with JMH toolkit
+# Java micro benchmarks examples with JMH toolkit
+Examples on how to use JMH toolkit to test java code performance.
 
 # How to run this project
 
