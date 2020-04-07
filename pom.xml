@@ -1,0 +1,78 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>it.angeloonline.performance</groupId>
+  <artifactId>JMHBenchmark</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Archetype - benchmark</name>
+  <url>http://maven.apache.org</url>
+  
+
+    <prerequisites>
+        <maven>3.0</maven>
+    </prerequisites>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- JMH version to use with this project. -->
+        <jmh.version>1.21</jmh.version>
+
+        <!-- Java source/target to use for compilation. -->
+        <javac.target>1.8</javac.target>
+
+        <!-- Name of the benchmark Uber-JAR to generate. -->
+        <uberjar.name>benchmarks</uberjar.name>
+    </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-core</artifactId>
+            <version>${jmh.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-generator-annprocess</artifactId>
+            <version>${jmh.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+  <build>
+<plugins>
+<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.0</version>
+        <configuration>
+          <source>${javac.target}</source>
+          <target>${javac.target}</target>
+        </configuration>
+      </plugin>
+  <plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>exec-maven-plugin</artifactId>
+    <version>1.6.0</version>
+    <executions>
+        <execution>
+            <id>run-benchmarks</id>
+            <phase>integration-test</phase>
+            <goals>
+                <goal>exec</goal>
+            </goals>
+            <configuration>
+                <classpathScope>test</classpathScope>
+                <executable>java</executable>
+                <arguments>
+                    <argument>-classpath</argument>
+                    <classpath />
+                    <argument>org.openjdk.jmh.Main</argument>
+                    <argument>.*.</argument>
+                </arguments>                
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+</plugins>
+</build>
+</project>
